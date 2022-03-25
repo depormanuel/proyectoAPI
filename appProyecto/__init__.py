@@ -8,6 +8,8 @@ CORS(app)
 app.url_map.strict_slashes = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/EventosDeportivos'
 app.config['JSON_AS_ASCII'] = False
+app.config["MYSQL_HOST"]="127.0.0.1"
+
 
 db = SQLAlchemy(app)
 

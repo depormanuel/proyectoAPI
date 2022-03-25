@@ -1,7 +1,7 @@
 from urllib.request import urlopen
 import appProyecto.models as m
 import json
-from appProyecto import db
+from appProyecto import app, db
 from flask import jsonify
 
 url = "https://datosabiertos.ayto-arganda.es/dataset/422ba3d6-93fb-49c1-8d0c-785fd6dfb631/resource/54c98ef5-60bf-4860-822a-b02b6748535b/download/eventos-febrero.json"
@@ -30,10 +30,8 @@ for events in data_json:
                         entidad=events['ENTIDAD'],
                         actividad=events['ACTIVIDAD'],
                         deporte=events['DEPORTE'])
-    print(new_entry)
+    print(new_entry.asdict())
     arrayBuffer.append(new_entry)
 
-"""
 db.session.add_all(arrayBuffer)
 db.session.commit()
-"""
