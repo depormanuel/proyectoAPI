@@ -27,7 +27,7 @@ class Evento(db.Model):
         return {"mes" : self.mes,
                 "ano" : self.ano,
                 "instalacion" : self.instalacion,
-                "entidad" : self.empresaId,
+                "entidad" : Empresa.getNombreById(self.empresaId),
                 "actividad" : self.actividad,
                 "deporte" : self.deporte
         }
@@ -50,6 +50,10 @@ class Empresa(db.Model):
     def getIDbyNombre(nombre):
         empresa = Empresa.query.filter_by(nombre=nombre).first()
         return empresa.rowid
+
+    def getNombreById(rowid):
+        empresa = Empresa.query.filter_by(rowid=rowid).first()
+        return empresa.nombre
 
     def getEmpresaById(rowid):
         empresa = Empresa.query.filter_by(rowid=rowid).first()
