@@ -33,7 +33,7 @@ class Evento(db.Model):
 # ==== Empresa MODEL ==== #
 
 class Empresa(db.Model):
-    idEmpresa = db.Column(db.Integer, primary_key = True)
+    rowid = db.Column(db.Integer, primary_key = True)
     nombre = db.Column(db.String(30))
     ciudad = db.Column(db.String(40))
     mail = db.Column(db.String(100))

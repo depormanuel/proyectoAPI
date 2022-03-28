@@ -11,3 +11,22 @@ def allEvents():
     db.session.execute('PRAGMA foreign_keys=ON;')
     return response
 
+
+@app.route('/empresas/', methods=['GET'])
+def allEmpresas():
+    empresas = m.Empresa.query.all()
+    response = jsonify([empresa.asdict() for empresa in empresas])
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    db.session.execute('PRAGMA foreign_keys=ON;')
+    return response
+
+
+@app.route('/participantes/', methods=['GET'])
+def allParticipantes():
+    participantes = m.Empresa.query.all()
+    response = jsonify([participante.asdict() for participante in participantes])
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    db.session.execute('PRAGMA foreign_keys=ON;')
+    return response
+
+
