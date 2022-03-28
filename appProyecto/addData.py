@@ -32,6 +32,5 @@ for events in data_json:
                         deporte=events['DEPORTE'])
     print(new_entry.asdict())
     arrayBuffer.append(new_entry)
-
 db.session.add_all(arrayBuffer)
 db.session.commit()
