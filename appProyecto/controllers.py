@@ -3,7 +3,7 @@ import appProyecto.models as m
 from flask import jsonify, request
 
 # ==== Eventos API ==== #
-@app.route('/events/', methods=['GET'])
+@app.route('/eventos/', methods=['GET'])
 def allEvents():
     events = m.Evento.query.all()
     response = jsonify([event.asdict() for event in events])
@@ -11,6 +11,7 @@ def allEvents():
     db.session.execute('PRAGMA foreign_keys=ON;')
     return response
 
+# ==== Empresas API ==== #
 
 @app.route('/empresas/', methods=['GET'])
 def allEmpresas():
@@ -20,6 +21,19 @@ def allEmpresas():
     db.session.execute('PRAGMA foreign_keys=ON;')
     return response
 
+@app.route('/empresas/put', methods=['POST'])
+def putEmpresa():
+    nombre = request.form['nombre']
+    ciudad = request.form['ciudad']
+    mail = request.form['mail']
+    telefono = request.form['telefono']
+
+    empresa = m.Empresa(nombre,ciudad,mail,telefono)
+    db.session.add(empresa)
+    db.session.commit()
+    return jsonify(empresa.asdict())
+
+# ==== Participantes API ==== #
 
 @app.route('/participantes/', methods=['GET'])
 def allParticipantes():

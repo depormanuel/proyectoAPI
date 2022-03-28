@@ -8,15 +8,17 @@ class Evento(db.Model):
     mes = db.Column(db.String(30))
     ano = db.Column(db.Integer)
     instalacion = db.Column(db.String(100))
-    entidad = db.Column(db.String(100))
+    empresaId = db.Column(db.Integer, db.ForeignKey('empresa.rowid'), nullable = False)
     actividad = db.Column(db.String(100))
     deporte = db.Column(db.String(100))
 
-    def __init__(self, mes, ano, instalacion, entidad, actividad, deporte):
+    empresa = db.relationship('Empresa', uselist=False, lazy=True, passive_deletes = True)
+
+    def __init__(self, mes, ano, instalacion, empresaId, actividad, deporte):
         self.mes = mes
         self.ano = ano
         self.instalacion = instalacion
-        self.entidad = entidad
+        self.empresaId = empresaId
         self.actividad = actividad
         self.deporte = deporte
 
@@ -25,7 +27,7 @@ class Evento(db.Model):
         return {"mes" : self.mes,
                 "ano" : self.ano,
                 "instalacion" : self.instalacion,
-                "entidad" : self.entidad,
+                "entidad" : self.empresaId,
                 "actividad" : self.actividad,
                 "deporte" : self.deporte
         }
@@ -44,6 +46,14 @@ class Empresa(db.Model):
         self.ciudad = ciudad
         self.mail = mail
         self.telefono = telefono
+
+    def getIDbyNombre(nombre):
+        empresa = Empresa.query.filter_by(nombre=nombre).first()
+        return empresa.rowid
+
+    def getEmpresaById(rowid):
+        empresa = Empresa.query.filter_by(rowid=rowid).first()
+        return empresa
 
     def asdict(self):
 
