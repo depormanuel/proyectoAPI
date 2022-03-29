@@ -95,10 +95,18 @@ def delParticipante():
     db.session.commit()
     return jsonify(True)
 
+@app.route('/participantes/<numTelef>', methods=['GET'])
+def searchParticipan():
+    participantes = m.Participante.query.all()
+    response = jsonify([participante.asdict() for participante in participantes])
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    db.session.execute('PRAGMA foreign_keys=ON;')
+    return response
+
 # ==== Participan API ==== #
 
 # ---- MAÑANA SEGUIMOS------#
-@app.route('/participan/', methods=['GET'])
+@app.route('/participan/<evento>', methods=['GET'])
 def allParticipan():
     participan = m.association_table.query.all()
     print(participan)
