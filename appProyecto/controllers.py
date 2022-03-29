@@ -95,3 +95,28 @@ def delParticipante():
     db.session.commit()
     return jsonify(True)
 
+# ==== Participan API ==== #
+
+# ---- MAÑANA SEGUIMOS------#
+@app.route('/participan/', methods=['GET'])
+def allParticipan():
+    participan = m.association_table.query.all()
+    print(participan)
+    response = jsonify([participante.asdict() for participante in participan])
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    db.session.execute('PRAGMA foreign_keys=ON;')
+    return response
+
+
+@app.route('/participan/put', methods=['POST'])
+def putParticipan():
+    eventoid = request.form['eventoid']
+    participanteid = request.form['participanteid']
+
+    evento = m.Evento.geteventobyId(eventoid)
+    participante = m.Participante.getParticipantebyId(participanteid)
+
+    statement = m.association_table.insert().values(id_evento=evento.rowid, id_part=participante.rowid)
+    db.session.execute(statement)
+    db.session.commit()
+    return jsonify(True)

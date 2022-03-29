@@ -1,5 +1,11 @@
 from appProyecto import db
 
+
+association_table = db.Table('participan', 
+    db.Column('id_evento', db.ForeignKey('evento.rowid'), primary_key=True),
+    db.Column('id_part', db.ForeignKey('participante.rowid'), primary_key=True))
+
+
 # ==== Eventos MODEL ==== #
 
 class Evento(db.Model):
@@ -13,6 +19,8 @@ class Evento(db.Model):
     deporte = db.Column(db.String(100))
 
     empresa = db.relationship('Empresa', uselist=False, lazy=True, passive_deletes = True)
+    participante = db.relationship("Participante",secondary=association_table)
+
 
     def __init__(self, mes, ano, instalacion, empresaId, actividad, deporte):
         self.mes = mes
@@ -59,7 +67,7 @@ class Empresa(db.Model):
     def getNombreById(rowid):
         buffer = ""
         salida = Empresa.getEmpresaById(rowid)
-        
+
         if salida != None:
             empresa = Empresa.query.filter_by(rowid=rowid).first()
             buffer = empresa.nombre
@@ -103,19 +111,3 @@ class Participante(db.Model):
                 "telefono" : self.telefono
         }
 
-# ==== Participan MODEL ==== #
-
-class Participan(db.Model):
-    __tablename__ = "participan"
-    id_evento = db.Column(db.Integer, primary_key = True)
-    id_part = db.Column(db.Integer, primary_key = True)
-
-    def __init__(self, id_evento, id_part):
-        self.id_evento = id_evento
-        self.localidad = id_part
-
-    def asdict(self):
-
-        return {"id_evento" : self.id_evento,
-                "id_part" : self.id_part
-        }
