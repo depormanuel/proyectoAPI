@@ -70,7 +70,7 @@ class Empresa(db.Model):
 # ==== Participante MODEL ==== #
 
 class Participante(db.Model):
-    idParticipante = db.Column(db.Integer, primary_key = True)
+    rowid = db.Column(db.Integer, primary_key = True)
     nombre = db.Column(db.String(30))
     localidad = db.Column(db.String(40))
     telefono = db.Column(db.String(100))
@@ -86,7 +86,6 @@ class Participante(db.Model):
                 "localidad" : self.localidad,
                 "telefono" : self.telefono
         }
-
 
 # ==== Participan MODEL ==== #
 

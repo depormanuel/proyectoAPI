@@ -37,10 +37,20 @@ def putEmpresa():
 
 @app.route('/participantes/', methods=['GET'])
 def allParticipantes():
-    participantes = m.Empresa.query.all()
+    participantes = m.Participante.query.all()
     response = jsonify([participante.asdict() for participante in participantes])
     response.headers.add('Access-Control-Allow-Origin', '*')
     db.session.execute('PRAGMA foreign_keys=ON;')
     return response
 
+@app.route('/participantes/put', methods=['POST'])
+def putParticipantes():
+    nombre = request.form['nombre']
+    localidad = request.form['localidad']
+    telefono = request.form['telefono']
+
+    participante = m.Participante(nombre,localidad,telefono)
+    db.session.add(participante)
+    db.session.commit()
+    return jsonify(participante.asdict())
 
