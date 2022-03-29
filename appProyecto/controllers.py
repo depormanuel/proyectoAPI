@@ -11,6 +11,30 @@ def allEvents():
     db.session.execute('PRAGMA foreign_keys=ON;')
     return response
 
+@app.route('/eventos/put', methods=['POST'])
+def putEventos():
+    mes = request.form['mes']
+    ano = request.form['ano']
+    instalacion = request.form['instalacion']
+    idEmpresa = request.form['idEmpresa']
+    actividad = request.form['actividad']
+    deporte = request.form['deporte']
+
+
+    evento = m.Evento( mes, ano, instalacion, idEmpresa, actividad, deporte)
+    db.session.add(evento)
+    db.session.commit()
+    return jsonify(evento.asdict())
+
+@app.route('/eventos/delete', methods=['POST'])
+def delEventos():
+    idEvento = request.form['idEvento']
+    evento = m.Evento.geteventobyId(idEvento)
+    db.session.delete(evento)
+    db.session.commit()
+    return jsonify(True)
+
+
 # ==== Empresas API ==== #
 
 @app.route('/empresas/', methods=['GET'])
@@ -33,6 +57,15 @@ def putEmpresa():
     db.session.commit()
     return jsonify(empresa.asdict())
 
+@app.route('/empresas/delete', methods=['POST'])
+def delEmpresas():
+    idEmpresa= request.form['idEmpresa']
+    empresa = m.Empresa.getEmpresaById(idEmpresa)
+    db.session.delete(empresa)
+    db.session.commit()
+    return jsonify(True)
+
+
 # ==== Participantes API ==== #
 
 @app.route('/participantes/', methods=['GET'])
@@ -53,4 +86,12 @@ def putParticipantes():
     db.session.add(participante)
     db.session.commit()
     return jsonify(participante.asdict())
+
+@app.route('/participantes/delete', methods=['POST'])
+def delParticipante():
+    idParticipante = request.form['idParticipante']
+    participante = m.Participante.getParticipantebyId(idParticipante)
+    db.session.delete(participante)
+    db.session.commit()
+    return jsonify(True)
 

@@ -19,6 +19,20 @@ for empresas in data:
 db.session.add_all(arrayBuffer)
 db.session.commit()
 
+#CARGANDO PARTICIPANTES
+
+with open('../participantes.json') as json_file2:
+    data2 = json.load(json_file2)
+
+arrayBuffer2 = []
+for participantes in data2:
+    new_entry = m.Participante(nombre=participantes['nombre'],
+                        localidad=participantes['localidad'],
+                        telefono=participantes['telefono'])
+    arrayBuffer2.append(new_entry)
+db.session.add_all(arrayBuffer2)
+db.session.commit()
+
 
 #CARGANDO EVENTOS
 
@@ -48,4 +62,9 @@ for events in data_json:
 
 db.session.add_all(arrayBuffer)
 db.session.commit()
+
+
+
+
+
 print("Done")

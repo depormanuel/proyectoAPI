@@ -22,6 +22,10 @@ class Evento(db.Model):
         self.actividad = actividad
         self.deporte = deporte
 
+    def geteventobyId(rowid):
+        evento = Evento.query.filter_by(rowid=rowid).first()
+        return evento
+
     def asdict(self):
 
         return {"mes" : self.mes,
@@ -41,6 +45,7 @@ class Empresa(db.Model):
     mail = db.Column(db.String(100))
     telefono = db.Column(db.String(20))
 
+
     def __init__(self, nombre, ciudad, mail, telefono):
         self.nombre = nombre
         self.ciudad = ciudad
@@ -52,8 +57,15 @@ class Empresa(db.Model):
         return empresa.rowid
 
     def getNombreById(rowid):
-        empresa = Empresa.query.filter_by(rowid=rowid).first()
-        return empresa.nombre
+        buffer = ""
+        salida = Empresa.getEmpresaById(rowid)
+        
+        if salida != None:
+            empresa = Empresa.query.filter_by(rowid=rowid).first()
+            buffer = empresa.nombre
+        else:
+            buffer = "Empresa eliminada..."
+        return buffer
 
     def getEmpresaById(rowid):
         empresa = Empresa.query.filter_by(rowid=rowid).first()
@@ -79,6 +91,10 @@ class Participante(db.Model):
         self.nombre = nombre
         self.localidad = localidad
         self.telefono = telefono
+
+    def getParticipantebyId(rowid):
+        participante = Participante.query.filter_by(rowid=rowid).first()
+        return participante
 
     def asdict(self):
 
