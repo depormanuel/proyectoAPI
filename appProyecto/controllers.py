@@ -132,31 +132,6 @@ def updateEmpresa(rowid):
 
     db.session.commit()
     return jsonify(True)
-
-
-
-@app.route('/participantes/update/<rowid>', methods=['POST'])
-def updateParticipante(rowid):
-    #Dentro del dict puedes agregar todas las columnas del registro a actualizar
-    nuevonombre = request.form['nombre']
-    nuevolocalidad = request.form['localidad']
-    nuevotelefono = request.form['telefono']
-
-    if nuevonombre == "":
-        nuevonombre = m.Participante.getParticipantebyId(rowid).nombre
-    
-    if nuevolocalidad == "":
-        nuevolocalidad = m.Participante.getParticipantebyId(rowid).localidad
-
-    
-    if nuevotelefono == "":
-        nuevotelefono = m.Participante.getParticipantebyId(rowid).telefono
-
-    m.Participante.query.filter_by(rowid=rowid).update(dict(nombre=nuevonombre, localidad=nuevolocalidad, telefono=nuevotelefono))
-
-    db.session.commit()
-    return jsonify(True)
-
     
 
 # ==== Participantes API ==== #
@@ -185,6 +160,28 @@ def delParticipante():
     idParticipante = request.form['idParticipante']
     participante = m.Participante.getParticipantebyId(idParticipante)
     db.session.delete(participante)
+    db.session.commit()
+    return jsonify(True)
+
+@app.route('/participantes/update/<rowid>', methods=['POST'])
+def updateParticipante(rowid):
+    #Dentro del dict puedes agregar todas las columnas del registro a actualizar
+    nuevonombre = request.form['nombre']
+    nuevolocalidad = request.form['localidad']
+    nuevotelefono = request.form['telefono']
+
+    if nuevonombre == "":
+        nuevonombre = m.Participante.getParticipantebyId(rowid).nombre
+    
+    if nuevolocalidad == "":
+        nuevolocalidad = m.Participante.getParticipantebyId(rowid).localidad
+
+    
+    if nuevotelefono == "":
+        nuevotelefono = m.Participante.getParticipantebyId(rowid).telefono
+
+    m.Participante.query.filter_by(rowid=rowid).update(dict(nombre=nuevonombre, localidad=nuevolocalidad, telefono=nuevotelefono))
+
     db.session.commit()
     return jsonify(True)
 

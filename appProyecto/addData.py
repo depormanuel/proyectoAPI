@@ -62,9 +62,4 @@ for events in data_json:
 
 db.session.add_all(arrayBuffer)
 db.session.commit()
-
-
-
-
-
 print("Done")
